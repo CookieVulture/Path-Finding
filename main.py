@@ -14,10 +14,11 @@ h = 750 / row
 grids = [0 for x in range(col)]
 openSet = []
 closedSet = []
-red = (255, 0, 0)
+red = (255, 51, 51)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 grey = (220, 220, 220)
+light_blue = (204, 255, 255)
 cameFrom = []
 
 
@@ -96,7 +97,7 @@ end = grids[12][5]
 # Show squares
 for x in range(col):
     for y in range(row):
-        grids[x][y].show((255, 255, 153), 1)
+        grids[x][y].show(light_blue, 1)
 
 for x in range(0, row):
     grids[0][x].show(blue, 0)
@@ -189,7 +190,7 @@ for x in range(col):
 
 
 def h_value(num, ex):
-    dist = math.sqrt((num.x - ex.x)**2 + (num.y - ex.j)**2)
+    dist = math.sqrt((num.x - ex.x)**2 + (num.y - ex.y)**2)
     return dist
 
 
@@ -212,7 +213,7 @@ def main():
 
             for x in range(round(currentVal.f)):
                 currentVal.closed = False
-                currentVal.show((255, 153, 0), 0)
+                currentVal.show((204, 0, 204), 0)
                 currentVal = currentVal.last
             end.show((255, 8, 127), 0)
 
@@ -258,7 +259,23 @@ def main():
             if neigh.last is None:
                 neigh.last = currentVal
 
+    if var.get():
+        for i in range(len(openSet)):
+            openSet[i].show(green, 0)
 
+        for i in range(len(closedSet)):
+            if closedSet[i] != start:
+                closedSet[i].show(red, 0)
+
+    currentVal.closed = True
+
+
+while True:
+    event = pygame.event.poll()
+    if event.type == pygame.QUIT:
+        pygame.quit()
+    pygame.display.update()
+    main()
 
 
 
