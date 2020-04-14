@@ -193,5 +193,72 @@ def h_value(num, ex):
     return dist
 
 
+def main():
+    end.show((255, 8, 127), 0)
+    start.show((255, 8, 127), 0)
+
+    if len(openSet) > 0:
+        lowIndex = 0
+        for x in range(len(openSet)):
+            if openSet[x].f < openSet[lowIndex].f:
+                lowIndex = x
+
+        currentVal = openSet[lowIndex]
+
+        if currentVal == end:
+            print("Finished ", currentVal.f)
+            start.show((255,8,127), 0)
+            temp = currentVal.f
+
+            for x in range(round(currentVal.f)):
+                currentVal.closed = False
+                currentVal.show((255, 153, 0), 0)
+                currentVal = currentVal.last
+            end.show((255, 8, 127), 0)
+
+            Tk().wm_withdraw()
+            result = messagebox.askokcancel("Program Done", ('The program done, the shortest distance \n to the path is ' + str(temp) + ' squares away, \n Would you like to reset the program?'))
+
+            if result is True:
+                os.execl(sys.executable, sys.executable, *sys.argv)
+
+            else:
+                ag = True
+                while ag:
+                    event = pygame.event.get()
+                    for eve in event:
+                        if eve.type == pygame.KEYDOWN:
+                            ag = False
+                            break
+
+            pygame.quit()
+
+        openSet.pop(lowIndex)
+        closedSet.append(currentVal)
+
+        neighbor = currentVal.neighbor
+
+        for n in range(len(neighbor)):
+            neigh = neighbor[n]
+
+            if neigh not in closedSet:
+                tempGvalue = currentVal.g + currentVal.val
+
+                if neigh in openSet:
+                    if neigh.g > tempGvalue:
+                        neigh.g = tempGvalue
+
+                else:
+                    neigh.g = tempGvalue
+                    openSet.append(neigh)
+
+            neigh.h = h_value(neigh, end)
+            neigh.f = neigh.g + neigh.h
+
+            if neigh.last is None:
+                neigh.last = currentVal
+
+
+
 
 
