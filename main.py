@@ -1,5 +1,4 @@
 import pygame
-import sys
 import math
 from tkinter import *
 from tkinter import ttk
